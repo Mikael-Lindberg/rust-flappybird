@@ -26,35 +26,12 @@ impl Bird {
     }
 }
 
-struct Ground {
-    x: i32,
-    y: i32,
-}
-
-impl Ground {
-    fn new(x: i32, y: i32) -> Self {
-        Self { x, y }
-    }
-}
-
-struct Pipe {
-    x: i32,
-    y: i32,
-}
-
-impl Pipe {
-    fn new(x: i32, y: i32) -> Self {
-        Self { x, y }
-    }
-}
-
 fn main() {
     let (mut rl, thread) = raylib::init().size(800, 450).title("Hello, World")
         .build();
     rl.set_target_fps(60);
 
     let mut bird = Bird::new(100, 200, 50, 50, 32, -200, 300);
-    let mut ground = Ground::new(0, 400);
 
     while !rl.window_should_close() {
         let deltatime: f32 = rl.get_frame_time() * 2.0;
@@ -69,12 +46,9 @@ fn main() {
 
         bird.update(deltatime);
 
-
         d.draw_rectangle(bird.x, bird.y, bird.width, bird.height, Color::RED);
 
         d.draw_rectangle(0, 350, 5000, 3, Color::RED);
-
-        //player.update(30.0);
     }
 }
 

@@ -1,32 +1,31 @@
 use raylib::prelude::*;
 
 struct Bird {
-    x: i32,
-    y: i32,
-    speed: i32,
-    width: i32,
-    height: i32,
-    speed_min: i32,
-    speed_max: i32,
+    x: f32,
+    y: f32,
+    speed: f32,
+    width: f32,
+    height: f32,
+    speed_min: f32,
+    speed_max: f32,
 }
 
 impl Bird {
-    fn new(x: i32, y: i32, speed: i32, width: i32, height: i32, speed_min: i32, speed_max: i32) -> Self {
+    fn new(x: f32, y: f32, speed: f32, width: f32, height: f32, speed_min: f32, speed_max: f32) -> Self {
         Self { x, y, speed, width, height, speed_min, speed_max }
     }
 
     fn update(&mut self, delta_time: f32) {
-        if self.y + 32 < 350 {
-            self.y += (self.speed as f32 * delta_time) as i32;
+        if self.y + 32.0 < 350.0 {
+            self.y += self.speed * delta_time;
         }
 
         self.speed = self.speed.clamp(self.speed_min, self.speed_max);
-
-        self.speed += 10;
+        self.speed += 10.0;
     }
 
     fn center(&mut self) -> Vector2 {
-        Vector2::new((self.width / 2) as f32, (self.height / 2) as f32)
+        Vector2::new(self.width / 2.0, self.height / 2.0)
     }
 }
 
@@ -35,7 +34,7 @@ fn main() {
         .build();
     rl.set_target_fps(60);
 
-    let mut bird = Bird::new(300, 100, 50, 50, 32, -250, 350);
+    let mut bird = Bird::new(300.0, 100.0, 50.0, 50.0, 32.0, -250.0, 350.0);
 
     while !rl.window_should_close() {
         let deltatime: f32 = rl.get_frame_time() * 2.0;
@@ -50,9 +49,8 @@ fn main() {
 
         bird.update(deltatime);
 
-        //d.draw_rectangle(bird.x, bird.y, bird.width, bird.height, Color::RED);
-        let rect = Rectangle::new(bird.x as f32, bird.y as f32, bird.width as f32, bird.height as f32);
-        d.draw_rectangle_pro(rect, bird.center(), bird.speed as f32 / 10.0, Color::RED);
+        let rect = Rectangle::new(bird.x, bird.y, bird.width, bird.height);
+        d.draw_rectangle_pro(rect, bird.center(), bird.speed / 10.0, Color::RED);
 
         d.draw_rectangle(0, 350, 5000, 3, Color::RED);
     }

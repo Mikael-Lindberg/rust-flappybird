@@ -24,6 +24,10 @@ impl Bird {
 
         self.speed += 10;
     }
+
+    fn center(&mut self) -> Vector2 {
+        Vector2::new((self.width / 2) as f32, (self.height / 2) as f32)
+    }
 }
 
 fn main() {
@@ -31,7 +35,7 @@ fn main() {
         .build();
     rl.set_target_fps(60);
 
-    let mut bird = Bird::new(100, 200, 50, 50, 32, -200, 300);
+    let mut bird = Bird::new(300, 100, 50, 50, 32, -250, 350);
 
     while !rl.window_should_close() {
         let deltatime: f32 = rl.get_frame_time() * 2.0;
@@ -46,7 +50,9 @@ fn main() {
 
         bird.update(deltatime);
 
-        d.draw_rectangle(bird.x, bird.y, bird.width, bird.height, Color::RED);
+        //d.draw_rectangle(bird.x, bird.y, bird.width, bird.height, Color::RED);
+        let rect = Rectangle::new(bird.x as f32, bird.y as f32, bird.width as f32, bird.height as f32);
+        d.draw_rectangle_pro(rect, bird.center(), bird.speed as f32 / 10.0, Color::RED);
 
         d.draw_rectangle(0, 350, 5000, 3, Color::RED);
     }
